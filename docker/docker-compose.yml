@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: de_postgres
+    environment:
+      POSTGRES_USER: user_auth_project_1
+      POSTGRES_PASSWORD: user_auth_project_1
+      POSTGRES_DB: db_project_1
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ../sql/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: de_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin_project_1@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "yR6LtOoK;47d!kD4K|3,O"
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
