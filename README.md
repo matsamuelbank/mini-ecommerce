@@ -11,8 +11,7 @@ mini-ecommerce/
 ├── .env
 ├── .env.example
 ├── .gitignore
-├── docker/
-│   └── docker-compose.yml
+├── docker-compose.yml
 ├── sql/
 │   ├── schema.sql
 │   ├── seed.sql
@@ -39,39 +38,38 @@ PGADMIN_DEFAULT_PASSWORD=Admin1234!
 PGADMIN_PORT=8080
 ```
 
-## Volumes SQL dans Docker Compose
+## Initialisation SQL
 
-Le fichier [docker/docker-compose.yml](/Users/samuelb/Workflow/formation-data/cours-docker/mini-ecommerce/docker/docker-compose.yml) monte les scripts SQL suivants pour initialiser PostgreSQL :
+Le projet utilise les fichiers du dossier `sql/` pour initialiser PostgreSQL :
 
-- `../sql/schema.sql` vers `/docker-entrypoint-initdb.d/01_schema.sql`
-- `../sql/seed.sql` vers `/docker-entrypoint-initdb.d/02_seed.sql`
-
-Cela correspond a la structure actuelle du projet, avec les fichiers SQL dans le dossier `sql/`.
+- `sql/schema.sql` : creation du schema, des tables, contraintes et index
+- `sql/seed.sql` : donnees de demonstration
+- `sql/queries.sql` : requetes SQL de test
 
 ## Commandes utiles
 
 Depuis la racine du projet `mini-ecommerce`, lance :
 
 ```bash
-docker compose --env-file .env -f docker/docker-compose.yml up -d
+docker compose --env-file .env up -d
 ```
 
 Pour arreter :
 
 ```bash
-docker compose --env-file .env -f docker/docker-compose.yml down
+docker compose --env-file .env down
 ```
 
 Pour supprimer aussi les volumes :
 
 ```bash
-docker compose --env-file .env -f docker/docker-compose.yml down -v
+docker compose --env-file .env down -v
 ```
 
 Pour voir les conteneurs :
 
 ```bash
-docker compose --env-file .env -f docker/docker-compose.yml ps
+docker compose --env-file .env ps
 ```
 
 ## Connexion pgAdmin
@@ -95,6 +93,6 @@ Les fichiers `schema.sql` et `seed.sql` sont executes uniquement lors de l'initi
 Si tu modifies ces fichiers, recree le volume :
 
 ```bash
-docker compose --env-file .env -f docker/docker-compose.yml down -v
-docker compose --env-file .env -f docker/docker-compose.yml up -d
+docker compose --env-file .env down -v
+docker compose --env-file .env up -d
 ```
